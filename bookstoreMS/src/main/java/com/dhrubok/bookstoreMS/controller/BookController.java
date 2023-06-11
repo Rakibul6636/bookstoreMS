@@ -40,8 +40,8 @@ public class BookController {
 	    mav.addObject("authors", authors);
 	    return mav;
 	}
-
-	@GetMapping("/bookList","/")
+	@GetMapping("/")
+	@GetMapping("/bookList")
 	public ModelAndView bookList() {
 		ModelAndView mav = new ModelAndView("book-list");
 		mav.addObject("books", bRepo.findAll());
