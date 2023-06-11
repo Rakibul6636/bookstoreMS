@@ -24,7 +24,7 @@ public class BookController {
 	@Autowired
 	private AuthorRepository aRepo;
 	
-	@GetMapping({"/test"})
+	@GetMapping({"/"})
 	public ModelAndView testMethod() {
 		System.out.println("inside list");
 		ModelAndView mav = new ModelAndView("app-layout");
