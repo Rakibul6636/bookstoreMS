@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+    <!-- Include the app layout -->
+    <div th:include="app-layout.html"></div>
+    <title>Add Book</title>
+</head>
+
+<body>
+    <div class="d-flex p-2 m-2 bg-danger bg-gradient text-light font-weight-bold justify-content-center h-10"
+        style="font-weight: 500px;">
+        <h2>Book List</h2>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover" id="bookTable">
+                            <thead>
+                                <tr>
+                                    <th>Sl. No.</th>
+                                    <th>Title</th>
+                                    <th>ISBN</th>
+                                    <th>Publication Year</th>
+                                    <th>Price</th>                                    
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Loop through each book -->
+                                <tr th:each="book, i : ${books}">
+                                    <td th:text="${i.count}"></td>
+                                    <td th:text="${book.title}"></td>
+                                    <td th:text="${book.isbn}"></td>
+                                    <td th:text="${book.publicationYear}"></td>
+                                    <td th:text="${book.price}"></td>
+                                    
+                                    <td>
+                                        <!-- View button -->
+                                        <a th:href="@{'/bookShow?bookId=' + ${book.bookId}}" class="btn btn-danger btn-sm">View</a>
+                                        <!-- Update button -->
+                                        <a th:href="@{'/bookUpdate?bookId=' + ${book.bookId}}" class="btn btn-primary btn-sm">Update</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery and DataTables libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#bookTable").DataTable({
+                'columnDefs': [{
+                    'targets': [-1], // Disable sorting for the last column (Action)
+                    'orderable': false
+                }]
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <div th:include="app-layout.html"></div>
+    <title>Add Book</title>
+</head>
+
+<body>
+    <div class="d-flex p-2 m-2 bg-danger bg-gradient text-light font-weight-bold justify-content-center h-10"
+        style="font-weight: 500px;">
+        <h2>Author List</h2>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header position-relative">
+                        <div class="form-control-group pull-right">
+                            <a th:href="@{/addAuthor}" class="btn btn-danger btn-sm">Add Author</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover" id="authorTable">
+                            <thead>
+                                <tr>
+                                    <th>Sl. No.</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Biography</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="author, i : ${authors}">
+                                    <td th:text="${i.count}"></td>
+                                    <td th:text="${author.name}"></td>
+                                    <td th:text="${author.email}"></td>
+                                    <td th:text="${author.biography}"></td>
+                                    <td>
+                                        <a th:attr="onclick='confirmDelete(\'' + ${author.authorId} + '\')'"
+                                            class="btn btn-danger btn-sm">Delete</a>
+
+                                        <a th:href="@{'/authorUpdate?authorId=' + ${author.authorId}}"
+                                            class="btn btn-primary btn-sm">Update</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include SweetAlert library -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- Define the JavaScript function -->
+    <script th:inline="javascript">
+        function confirmDelete(authorId) {
+            swal({
+                title: "",
+                text: "Deleting this author will also remove associated books. Are you sure you want to proceed?",
+                icon: "warning",
+                buttons: {
+                    cancel: "Cancel",
+                    confirm: "Yes, delete"
+                },
+                dangerMode: true
+            }).then(function (willDelete) {
+                if (willDelete) {
+                    deleteAuthor(authorId);
+                }
+            });
+        }
+
+        function deleteAuthor(authorId) {
+            // Send an Ajax request to check if the author has associated books
+            $.ajax({
+                url: "/authorDelete",
+                type: "POST",
+                data: { authorId: authorId },
+                success: function (response) {
+                    if (response === "hasBooks") {
+                        // Show a warning message that author has associated books
+                        swal("Warning", "You can't delete this author. Since it has associated book.", "warning");
+                    } else if (response === "noBooks") {
+                        // Send an Ajax request to delete the author
+                        $.ajax({
+                            url: "/authorDeleteConfirmed",
+                            type: "POST",
+                            data: { authorId: authorId },
+                            success: function () {
+                                swal("Success", "Author deleted successfully.", "success");
+                                location.reload();
+                            },
+                            error: function () {
+                                swal("Error", "An error occurred while deleting the author.", "error");
+                            }
+                        });
+                    } else {
+                        swal("Error", "An error occurred while deleting the author.", "error");
+                    }
+                },
+                error: function () {
+                    swal("Error", "An error occurred while deleting the author.", "error");
+                }
+            });
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#authorTable").DataTable({
+                'columnDefs': [{
+                    'targets': [-1, -2], // 1st one, start by the right
+                    'orderable': false
+                }]
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Include the app layout -->
+    <div th:include="app-layout.html"></div>
+    <title>Show Book</title>
+</head>
+
+<body>
+    <div class="d-flex p-2 m-2 bg-danger bg-gradient text-light font-weight-bold justify-content-center h-10"
+        style="font-weight: 500px;">
+        <h2>Book Details</h2>
+    </div>
+    <div class=" py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th width="30%">Title</th>
+                                    <td width="2%">:</td>
+                                    <td th:text="${book.title}"></td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">ISBN</th>
+                                    <td width="2%">:</td>
+                                    <td th:text="${book.isbn}">{{ $studentProfile->age }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Publication Year</th>
+                                    <td width="2%">:</td>
+                                    <td th:text="${book.publicationYear}">{{ $studentProfile->age }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Price</th>
+                                    <td width="2%">:</td>
+                                    <td th:text="${book.price}">{{ $studentProfile->age }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Author(s)</th>
+                                    <td width="2%">:</td>
+                                    <td>
+                                        <span th:each="author, iterStat : ${authors}">
+                                            <span th:text="${author.name}"></span>
+                                            <span th:if="${!iterStat.last}">,</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

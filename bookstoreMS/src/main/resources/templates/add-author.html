@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="app-layout.html"></div>
+    <title>Add Book</title>
+</head>
+<body>
+    <div class="d-flex p-2 m-2 bg-danger bg-gradient text-light font-weight-bold justify-content-center h-10"
+         style="font-weight: 50px;">
+        <h2>Add Author</h2>
+    </div>
+    <div class="student-profile py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Information</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <form th:action="@{/saveAuthor}" th:object="${author}" method="POST">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th width="30%">Name</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <input th:field="*{name}" class="form-control" type="text" id="name" name="name"
+                                                   autofocus required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">E-mail</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <input th:field="*{email}" class="form-control" type="text" id="email" name="email"
+                                                   required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">Biography</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <input th:field="*{biography}" class="form-control" type="text" id="biography"
+                                                   name="biography" required />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <button type="submit" class="btn btn-danger me-2">Add Author</button>
+                                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                <input type="hidden" th:field="*{authorId}" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

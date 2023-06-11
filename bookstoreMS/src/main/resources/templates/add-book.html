@@ -1,0 +1,77 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="app-layout.html"></div>
+    <title>Add Book</title>
+</head>
+<body>
+    <div class="d-flex p-2 m-2 bg-danger bg-gradient text-light font-weight-bold justify-content-center h-10"
+        style="font-weight: 50px;;">
+        <h2>Add Book</h2>
+    </div>
+    <div class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-0">
+                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Information</h3>
+                        </div>
+                        <div class="card-body pt-0">
+                            <form name="newBookForm" id="newBookForm" method="post"
+                                th:action="@{/bookSave}" th:object="${book}" enctype="multipart/form-data">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th width="30%">Title</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <input th:field="*{title}" class="form-control" type="text" id="title" name="title"
+                                                autofocus required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">ISBN</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <input th:field="*{isbn}" class="form-control" type="text" id="isbn" name="isbn"
+                                                required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">Publication Year</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <input th:field="*{publicationYear}" class="form-control" type="text" id="pubYear"
+                                                name="pubYear" required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">Price</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <input th:field="*{price}" class="form-control" type="text" id="price" name="price"
+                                                required />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">Author(s)</th>
+                                        <td width="2%">:</td>
+                                        <td>
+                                            <select id="authors" name="authorIds" multiple class="select2 form-select">
+                                                <option value="">Select Author(s)</option>
+                                                <option th:each="author : ${authors}" th:value="${author.authorId}" th:text="${author.name}"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <button type="submit" class="btn btn-danger me-2">Add Book</button>
+                                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                <input type="hidden" th:field="*{bookId}" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
