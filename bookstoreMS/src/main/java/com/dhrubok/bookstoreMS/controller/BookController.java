@@ -41,7 +41,7 @@ public class BookController {
 	    return mav;
 	}
 
-	@GetMapping("/bookList")
+	@GetMapping("/bookList","/")
 	public ModelAndView bookList() {
 		ModelAndView mav = new ModelAndView("book-list");
 		mav.addObject("books", bRepo.findAll());
